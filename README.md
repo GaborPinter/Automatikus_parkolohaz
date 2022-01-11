@@ -1,8 +1,12 @@
 from sense_hat import SenseHat
 from time import *
+import mysql.connector as mariadb
 
+mariadb_connection = mariadb.connect(user ='mark', password = '123456', host = 'Localhost', port = '3306')
 
+create_cursor = mariadb_connection.cursor()
 
+create_cursor.execute("USE adatbazis")
 
 sense = SenseHat()
 
@@ -69,12 +73,30 @@ while autoszam > 0:
         
     if regvbel == 3:
         print("\nAz adatbázis:")
+        create_cursor.execute("SELECT * FROM autok")
+        for x in create_cursor:
+            print(x)
+            print("\n")
         regvbel = input("Válassz az alábbi menüből:\n   1.Belépés\n   2.Regisztráció\n   3.Adatbázis megtekintése\n")
         regvbel = int(regvbel)
         
     if regvbel == 2:
                     
+        nev = input("Név: ")
+        rendszam = input("Rendszám: ")
+        bankkartya = input("Bankkártya: ")
+        db = 1
+        db = db +1
+        sql_statement = 'INSERT INTO autok (id,nev,rendszam,bankkartyaszam) VALUES ('+str(db)+',"'+nev+'","'+rendszam+'","'+bankkartya+'")';
+        create_cursor.execute(sql_statement)
+        mariadb_connection.commit();
+        print("Sikeres regisztráció, most már be tud lépni\n")
         
+    sql = 'SELECT rendszam FROM autok'
+    create_cursor.execute(sql)
+    eredmeny = create_cursor.fetchall()
+    bejelentkezes = [i[0] for i in eredmeny]
+    
     beir = input("Az autó rendszáma: ")
     if beir in bejelentkezes:
         mehet = True
