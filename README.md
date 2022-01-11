@@ -3,6 +3,7 @@ from time import *
 
 
 
+
 sense = SenseHat()
 
 red = [255,0,0]
@@ -21,7 +22,7 @@ d=50
 e=59
 f=55
 
-bejelentkezes =["abc-123", "efc-456"]
+
 t = []
 mehet = None
 pozi = 1
@@ -33,14 +34,15 @@ hely3 = False
 hely4 = False
 hely5 = False
 autoszam = 5
+regvbel = 1
 
-    
+
 ##feltöltjük a tömböt
 for i in range(64):
     t.append(black)
     
-while autoszam > 0:
 
+while autoszam > 0:
     #64-60-ig út
     for i in range(63,58,-1):
         sleep(0.5)
@@ -58,7 +60,21 @@ while autoszam > 0:
     
     sense.set_pixel(4,6,red)
     sleep(0.5)
-
+    
+    regvbel = input("Válassz az alábbi menüből:\n   1.Belépés\n   2.Regisztráció\n   3.Adatbázis megtekintése\n")
+    regvbel = int(regvbel)
+    while regvbel < 1 or regvbel > 3:
+        regvbel = input("Helytelen szám, próbáld újra: ")
+        regvbel = int(regvbel)
+        
+    if regvbel == 3:
+        print("\nAz adatbázis:")
+        regvbel = input("Válassz az alábbi menüből:\n   1.Belépés\n   2.Regisztráció\n   3.Adatbázis megtekintése\n")
+        regvbel = int(regvbel)
+        
+    if regvbel == 2:
+                    
+        
     beir = input("Az autó rendszáma: ")
     if beir in bejelentkezes:
         mehet = True
@@ -123,7 +139,7 @@ while autoszam > 0:
         
         sense.set_pixel(0,0,sarga)
         #if hely1 == False or hely2 == False:
-        while True:
+        if hely1 == False or hely2 == False:
             for event in sense.stick.get_events():
                 #while event.direction != "up":
                 if event.action == "pressed":
@@ -170,14 +186,57 @@ while autoszam > 0:
                             sense.set_pixel(0,4,black)
                             sense.set_pixel(7,4,sarga)
                     elif event.direction == "up":
+                        if pozi == 1:
+                            hely1 = True
                         if pozi == 2:
-                            hely2 = True
-                                
+                            hely2 = True       
                         if pozi == 3:
                             hely3 = True
+                        if pozi == 4:
+                            hely4 = True
+                        if pozi == 5:
+                            hely5 = True
                             
 
-        
+            if hely1 == True:
+                hely1 = False
+                for i in range(45,11,-1):
+                    sleep(0.1)
+                    if i == 44 or i == 36 or i== 28 or i == 20 or i == 12:
+                        t[i] = red
+                    if i == 36:
+                        t[44] = black
+                    if i == 28:
+                        t[36] = black
+                    if i == 20:
+                        t[28] = black
+                    if i == 12:
+                        t[20] = black
+                    
+                    sense.set_pixels(t) 
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                
+                
+                
+                for i in range (5,-1,-1):
+                    sleep(0.7)
+                    
+                    if i!= 5:
+                        t[i] = red
+                    if i < 6 or i == -1:
+                        t[i+1] = black
+                        
+                       
+                    sense.set_pixels(t)
+                    t[12] = black 
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+            
+            
+            
             if hely2 == True:
                 hely2 = False
                 for i in range(45,11,-1):
@@ -201,49 +260,112 @@ while autoszam > 0:
                        
                 for i in range(4,9,1):
                     
-                    sleep(0.8)
+                    sleep(0.7)
                     if i != 9:
                         t[i] = red
                     if i > 4 and  i != 8:
                         t[i-1] = black
+                        
+                        
+                    t[12] = black                    
                     sense.set_pixels(t)
-                    sense.set_pixel(4,1,black)
                     sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
                     sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
                     sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
                 
             if hely3 == True:
                 hely3 = False
-                for i in range(45,20,-1):
+                for i in range(45,19,-1):
                     sleep(0.1)
                     if i == 44 or i == 36 or i== 28 or i == 20:
                         t[i] = red
+                       
                     if i == 36:
                         t[44] = black
                     if i == 28:
                         t[36] = black
                     if i == 20:
                         t[28] = black
+                    if i == 19:
+                        t[20] = black
                     
-                    sense.set_pixels(t) 
-                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
-                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
-                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                    
+                    sense.set_pixels(t),sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),sense.set_pixel(6,3,feher),
+                    sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue),sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
                        
                        
                 for i in range(20,25,1):
-                    sleep(0.8)
+                    sleep(0.7)
                     if i != 25:
-                        t[i] = red
+                        t[i] = red                       
                     if i > 20 and  i != 24:
                         t[i-1] = black
+                    
+                    
                     sense.set_pixels(t)
-                    sense.set_pixel(4,1,black)
                     sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
                     sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
-                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)     
-      
-        
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                    
+            if hely4 == True:
+                hely4 = False
+                for i in range(44,35,-1):
+                    sleep(0.1)
+                    if i == 44 or i == 36:
+                        t[i] = red
+                    if i == 36:
+                        t[44] = black
+                    
+                    sense.set_pixels(t)
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                
+                for i in range(35,29,-1):
+                    sleep(0.7)
+                    if i != 29:
+                        t[i] = red
+                    
+                    if i < 35 and i != 31:
+                        t[i+1] = black
+                    
+                        
+                    t[36] = black
+                    sense.set_pixels(t)
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                    
+            if hely5 == True:
+                hely5 = False
+                for i in range(44,35,-1):
+                    sleep(0.1)
+                    if i == 44 or i == 36:
+                        t[i] = red
+                    if i == 36:
+                        t[44] = black
+                    
+                    sense.set_pixels(t)
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue)
+                
+                for i in range(36,41,1):
+                    sleep(0.7)
+                    
+                    if i != 40:
+                        t[i] = red
+                    
+                    if i > 36 and i != 40:
+                        t[i-1] = black
+                    
+                        
+                    sense.set_pixels(t)
+                    t[36] = black
+                    sense.set_pixel(0,1,feher),sense.set_pixel(1,1,feher),sense.set_pixel(6,1,feher),sense.set_pixel(7,1,feher),
+                    sense.set_pixel(6,3,feher),sense.set_pixel(7,3,feher),sense.set_pixel(0,2,blue),sense.set_pixel(1,2,blue)
+                    sense.set_pixel(0,3,blue),sense.set_pixel(1,3,blue) 
              
 sleep(3)
 sense.clear()
+
